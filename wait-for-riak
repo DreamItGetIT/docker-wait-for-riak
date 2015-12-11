@@ -1,0 +1,13 @@
+/bin/sh
+
+RIAK_URL="$RIAK_PORT_8098_TCP_ADDR:$RIAK_PORT_8098_TCP_PORT/buckets/test/keys/key"
+
+printf "Waiting for Riak to start "
+value=`wget -qO- http://$RIAK_URL 2>&1`
+while [ "${value}" != "wget: server returned error: HTTP/1.1 404 Object Not Found" ]
+do
+  printf "."
+  sleep 2
+  value=`wget -qO- http://$RIAK_URL 2>&1`
+done
+printf "\nRiak ready\n"
